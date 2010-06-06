@@ -1,0 +1,41 @@
+=pod
+
+=head1 NAME
+
+perl6-puppet-parser
+
+=head1 SYNOPSIS
+
+  use v6;
+  use Puppet::Parser;
+
+  # Just a stupid example
+  my $module = 'class { foo }';
+
+  my $parsed = Puppet::Parser::Grammar.parse($module);
+  say $parsed.perl;
+
+=head1 DESCRIPTION
+
+(Aims to be a) module to:
+
+=over
+
+=item parse Puppet modules
+
+=item automatically build documentation for them
+
+=back
+
+We're far away from that.
+
+This is mostly my initial attempts at learning Perl 6 grammars.
+
+=head1 AUTHORS
+
+Cosimo Streppone, E<lt>cosimo@cpan.orgE<gt>
+
+=head1 LICENSE
+
+This module is released under Artistic 2.0. See LICENSE.
+

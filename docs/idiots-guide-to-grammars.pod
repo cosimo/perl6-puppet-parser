@@ -1,0 +1,81 @@
+=pod
+
+=head1 NAME
+
+Idiots guide to Perl6 grammars
+
+=head1 DESCRIPTION
+
+Dumpster of all quick notes and tips on how I'm trying to build my first functional Perl6 Grammar.
+
+B<Don't expect to find something interesting here...>
+
+You have been warned :)
+
+=head2 Some #perl6 IRC log from 2010-06-06
+
+  09:24 < cosimo> say for example,
+  09:25 < cosimo> regex TOP { ^ <line> ** \n <empty_line>? $ }
+  09:25 < cosimo> what is '^'? and '**' ? how can I find out?
+  09:25 < masak> cosimo: my advice: write tests for the existing grammar, not necessarily as Perl 6 code. implement the new grammar such that it passes the new tests.
+  09:25 <@pmichaud> cosimo: oh, Synopsis 5.
+  09:25 < PerlJam> cosimo: read S05
+  09:25 < JimmyZ> masak: were they bugs last time I showed you?
+  09:26 <@pmichaud> ^ means "start of string".
+  09:26 < cosimo> PerlJam: pmichaud: great, thansk
+  09:26 < masak> JimmyZ: I think they were. but weren't they reported to RT already?
+  09:26 < cosimo> thanks, even
+  09:26 <@pmichaud> ** is the repetition quantifier
+  09:27 < PerlJam> cosimo: people here are always happy to share what they know too.
+  09:27 < JimmyZ>  masak: I sent it. but I can't find it in RT
+  09:27 < cosimo> pmichaud: and, why it uses regex and not token for example?
+  09:27 < sorear> Read S05.
+  09:27 <@pmichaud> 'regex' backtracks, 'token' doesn't.
+  09:28 < masak> JimmyZ: I thought I saw it as a comment on an existing bug. so maybe moritz_ or someone merged it into an older ticket, also submitted by you?
+  09:28 <@pmichaud> (in many parsers, backtracking isn't needed, and explicitly declaring such makes for a more efficient parse)
+  09:28 < masak> or it simply didn't get through.
+  09:29 < cosimo> ok, I'll go read S05 then. I wanted to write a real app, and I think I found an excellent use case :)
+  09:29 < JimmyZ> masak: which RT?
+  09:29 < masak> cosimo: when to use 'regex', 'token' and 'rule' is still something that doesn't come naturally to me. it's a fingertips thing, I suspect. I usually use 
+                 'regex' until it's totally clear by circumstantial evidence that I should upgrade to 'token', ditto 'token' -> 'rule'.
+  09:29 < JimmyZ> masak: I can't see my email in p6c too.
+  09:30 < masak> JimmyZ: I don't know. my regular powers are diminished, because I'm not at my own keyboard.
+  09:30 < JimmyZ> oh, okay
+  09:30 <@pmichaud> my guidelines:  use 'rule' when you expect the parts of the regex to be separated by whitespace.
+  09:31 <@pmichaud> use 'token' when you're defining something where each part is all-or-nothing
+  09:31 < masak> if you find yourself adding explicit <.ws> calls everywhere, that's a good sigh you should be using 'rule'.
+  09:31 <@pmichaud> or \s*
+  09:31 <@pmichaud> or \s+
+  09:31 < masak> eww! :P
+  09:32 <@pmichaud> no, I mean if you're writing \s* or \s+ everywhere, that's a good sign you should be using 'rule'
+  09:32 <@pmichaud> not that you should rewrite <.ws> with \s* or \s+
+  09:32 < PerlJam> btw, these rules-of-thumb we've all independently discovered (more or less).  I wonder if it's time for a "grammars best practices" or "grammar 
+                   writing guide" or something.
+  09:33 < masak> pmichaud: yes, I know. still, I don't tend to write <.ws> like that.
+
+=head2 Random problems I encountered
+
+=over 4
+
+=item * Can't put '-' in token name (class-body => class_body)
+
+=item * Q{...} has to have escaped '{' literals, as in Q{sub bar \{ ... \}}
+
+=item * Can't use \N+ instead of \w+. Why?
+
+=back
+
+=head2 TO BE CONTINUED
+
+...
+
+=head1 REPOSITORY
+
+  http://github.com/cosimo/perl6-puppet-parser/
+
+=head1 AUTHORS
+
+Cosimo E<lt>cosimo@cpan.orgE<gt>
+
+=end
+
